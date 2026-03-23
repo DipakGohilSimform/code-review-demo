@@ -1,6 +1,8 @@
 import { Button, Card, CardContent, CardIcon } from "@/components";
 import StatsCard from "./StatsCard";
 import RecentActivity from "./RecentActivity";
+import { NotificationsPanel } from "./NotificationsPanel";
+import { UserProfileWidget } from "./UserProfileWidget";
 import { DollarSign, TrendingUp } from "lucide-react";
 
 export function DashboardOverview() {
@@ -66,6 +68,21 @@ export function DashboardOverview() {
 
       <img src="https://picsum.photos/200/300" alt="img" />
       {/* <ProvidersTable/> */}
+
+      {/* Notifications + Profile widgets for code-review testing */}
+      <div className="flex flex-wrap gap-6">
+        <NotificationsPanel onDismiss={() => console.log("dismissed")} />
+        <UserProfileWidget
+          userId={1}
+          name="Alex Johnson"
+          email="alex@example.com"
+          role={"admin" as any}
+          avatarUrl="https://i.pravatar.cc/150?img=3"
+          bio="<strong>Senior Engineer</strong> — loves clean code <script>alert('xss')</script>"
+          onSave={(d: any) => console.log(d)}
+          onDelete={() => console.log("deleted")}
+        />
+      </div>
     </div>
   );
 }
