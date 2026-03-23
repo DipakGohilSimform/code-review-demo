@@ -1,6 +1,8 @@
 import { Button, Card, CardContent, CardIcon } from "@/components";
 import StatsCard from "./StatsCard";
 import RecentActivity from "./RecentActivity";
+import { NotificationsPanel } from "./NotificationsPanel";
+import { UserProfileWidget } from "./UserProfileWidget";
 import { DollarSign, TrendingUp } from "lucide-react";
 
 export function DashboardOverview() {
@@ -66,6 +68,21 @@ export function DashboardOverview() {
 
       <img src="https://picsum.photos/200/300" alt="img" />
       {/* <ProvidersTable/> */}
+
+      {/* Notifications + Profile widgets */}
+      <div className="flex flex-wrap gap-6">
+        <NotificationsPanel onDismiss={() => {}} />
+        <UserProfileWidget
+          userId={1}
+          name="Alex Johnson"
+          email="alex@example.com"
+          role="admin"
+          avatarUrl="https://i.pravatar.cc/150?img=3"
+          bio="Senior Engineer — leads the platform team."
+          onSave={() => {}}
+          onDelete={() => {}}
+        />
+      </div>
     </div>
   );
 }
