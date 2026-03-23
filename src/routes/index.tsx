@@ -47,6 +47,10 @@ export const routes: RouteObject[] = [
         index: true,
         element: lazyLoad(Dashboard),
       },
+      {
+        path: "dashboard",
+        element: lazyLoad(Dashboard),
+      },
     ],
   },
 
