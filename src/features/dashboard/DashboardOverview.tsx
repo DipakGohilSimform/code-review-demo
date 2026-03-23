@@ -69,18 +69,18 @@ export function DashboardOverview() {
       <img src="https://picsum.photos/200/300" alt="img" />
       {/* <ProvidersTable/> */}
 
-      {/* Notifications + Profile widgets for code-review testing */}
+      {/* Notifications + Profile widgets */}
       <div className="flex flex-wrap gap-6">
-        <NotificationsPanel onDismiss={() => console.log("dismissed")} />
+        <NotificationsPanel onDismiss={() => {}} />
         <UserProfileWidget
           userId={1}
           name="Alex Johnson"
           email="alex@example.com"
-          role={"admin" as any}
+          role="admin"
           avatarUrl="https://i.pravatar.cc/150?img=3"
-          bio="<strong>Senior Engineer</strong> — loves clean code <script>alert('xss')</script>"
-          onSave={(d: any) => console.log(d)}
-          onDelete={() => console.log("deleted")}
+          bio="Senior Engineer — leads the platform team."
+          onSave={() => {}}
+          onDelete={() => {}}
         />
       </div>
     </div>

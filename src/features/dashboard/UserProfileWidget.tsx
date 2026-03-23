@@ -1,26 +1,35 @@
-// 🟠 Component with performance, type-safety, a11y, and security issues
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
+import { cn } from "@/lib/utils";
 
-// 🔴 enum instead of `as const` union — violates TS convention
-enum UserRole {
-  Admin = "admin",
-  Editor = "editor",
-  Viewer = "viewer",
+// ── Types ─────────────────────────────────────────────────────────────────────
+export const USER_ROLES = {
+  Admin: "admin",
+  Editor: "editor",
+  Viewer: "viewer",
+} as const;
+
+export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES];
+
+export interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
 }
 
-// 🟠 interface mixing concerns — should be split
 interface UserProfileWidgetProps {
   userId: number;
   name: string;
   email: string;
   role: UserRole;
   avatarUrl: string;
-  bio: string; // 🟠 will be rendered via dangerouslySetInnerHTML
-  onSave: (data: any) => void; // 🔴 `any` parameter
-  onDelete: Function; // 🔴 `Function` type — should be () => void
+  /** Plain-text biography — rendered safely as text, never as HTML. */
+  bio: string;
+  onSave: (data: UserData) => void;
+  onDelete: () => void;
 }
 
-// 🟠 no explicit return type on exported component
+// ── Component ─────────────────────────────────────────────────────────────────
 export function UserProfileWidget({
   userId,
   name,
@@ -30,117 +39,90 @@ export function UserProfileWidget({
   bio,
   onSave,
   onDelete,
-}: UserProfileWidgetProps) {
+}: UserProfileWidgetProps): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
   const [localName, setLocalName] = useState(name);
 
-  // 🔴 useMemo with no real computation — over-memoization
-  const displayName = useMemo(() => localName.trim(), [localName]);
+  const displayName = localName.trim();
+  const isAdmin = role === USER_ROLES.Admin;
 
-  // 🟠 useCallback dep array missing `onSave` — stale closure
   const handleSave = useCallback(() => {
-    console.log("saving user", userId); // 🟠 console.log in production
-    onSave({ id: userId, name: localName, email, role });
+    onSave({ id: userId, name: localName.trim(), email, role });
     setIsEditing(false);
-  }, [userId, localName, email, role]); // missing onSave
-
-  // 🔴 Magic number — what is 3?
-  const isPrivileged = role === UserRole.Admin || userId < 3;
+  }, [userId, localName, email, role, onSave]);
 
   return (
-    // 🔴 arbitrary w/h, hardcoded pixel values
-    <div className="w-[420px] rounded-xl border bg-card shadow-lg">
-      {/* Banner — 🔴 hardcoded hex gradient not using theme tokens */}
-      <div
-        className="h-[80px] w-full rounded-t-xl"
-        style={{ background: "linear-gradient(135deg, #33c9fd 0%, #047296 100%)" }}
-      />
+    <div className="w-full max-w-sm rounded-xl border bg-card shadow-lg">
+      {/* Banner */}
+      <div className="h-20 w-full rounded-t-xl bg-gradient-to-br from-pagination-active to-pagination-text" />
 
       <div className="px-6 pb-6">
-        {/* Avatar — positioned with arbitrary negative margin */}
-        <div className="relative -mt-[36px] mb-3 flex items-end justify-between">
-          {/* 🟠 img without explicit width/height causes CLS */}
-          {/* 🔴 no meaningful alt text for informative image */}
+        {/* Avatar */}
+        <div className="relative -mt-9 mb-3 flex items-end justify-between">
           <img
             src={avatarUrl}
-            alt="avatar"
-            className="h-[72px] w-[72px] rounded-full border-4 border-card object-cover"
+            alt={name}
+            width={64}
+            height={64}
+            className="h-16 w-16 rounded-full border-4 border-card object-cover"
           />
-
-          {isPrivileged && (
-            // 🔴 hardcoded colors for badge
-            <span
-              className="rounded-full px-2 py-0.5 text-[11px] font-semibold"
-              style={{ background: "#dbf6cb", color: "#17793f", border: "1px solid #c7e9bd" }}
-            >
-              Privileged
+          {isAdmin && (
+            <span className="rounded-full border border-tag-success-border bg-tag-success-bg px-2 py-0.5 text-xs font-semibold text-tag-success-text">
+              Admin
             </span>
           )}
         </div>
 
-        {/* Name / email */}
+        {/* Name */}
         {isEditing ? (
-          <input
-            // 🟡 no label, no aria-label — inaccessible
-            value={localName}
-            onChange={e => setLocalName(e.target.value)}
-            // 🔴 arbitrary border radius + hardcoded focus ring color
-            className="mb-1 w-full rounded-[6px] border px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#33c9fd]"
-          />
+          <div className="mb-1">
+            <label htmlFor="profile-name" className="sr-only">
+              Full name
+            </label>
+            <input
+              id="profile-name"
+              value={localName}
+              onChange={e => setLocalName(e.target.value)}
+              className="w-full rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+          </div>
         ) : (
           <h3 className="text-base font-semibold text-foreground">{displayName}</h3>
         )}
 
-        {/* 🟡 arbitrary text size */}
-        <p className="text-[12px] text-muted-foreground">{email}</p>
+        <p className="text-xs text-muted-foreground">{email}</p>
 
-        {/* Role badge — 🔴 template literal for conditional classes, not cn() */}
+        {/* Role badge */}
         <span
-          className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium
-            ${role === UserRole.Admin ? "bg-[#ef4444]/10 text-[#ef4444]" : "bg-muted text-muted-foreground"}`}
+          className={cn(
+            "mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+            isAdmin ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+          )}
         >
           {role}
         </span>
 
-        {/* 🔴 dangerouslySetInnerHTML with un-sanitized user bio */}
-        <div
-          className="mt-3 text-sm text-muted-foreground"
-          dangerouslySetInnerHTML={{ __html: bio }}
-        />
+        {/* Bio — plain text, never rendered as HTML to prevent XSS */}
+        <p className="mt-3 text-sm text-muted-foreground">{bio}</p>
 
         {/* Actions */}
         <div className="mt-4 flex gap-2">
           <button
             onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-            // 🔴 no focus-visible ring — outline-none with nothing to replace it
-            className="flex-1 rounded-lg bg-pagination-active py-2 text-sm font-medium text-white outline-none"
+            className="flex-1 rounded-lg bg-pagination-active py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 active:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             {isEditing ? "Save" : "Edit Profile"}
           </button>
 
-          {/* 🔴 onClick calls onDelete which is typed as `Function` — no type safety */}
-          {/* 🔴 no aria-label, destructive action with no confirmation */}
           <button
-            onClick={() => onDelete()}
-            // 🔴 hardcoded red — not using destructive token
-            className="rounded-lg px-4 py-2 text-sm text-[#ef4444] hover:bg-[#ef4444]/10 outline-none"
+            aria-label={`Delete ${name}'s profile`}
+            onClick={onDelete}
+            className="rounded-lg px-4 py-2 text-sm text-destructive transition-colors hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Delete
           </button>
         </div>
-
-        {/* 🟡 commented-out code committed */}
-        {/* <button onClick={() => exportUser(userId)}>Export</button> */}
       </div>
     </div>
   );
-}
-
-// 🟡 default export AND named export in same file — mixes patterns
-// (barrel index will break react-refresh/only-export-components rule
-//  when this non-component helper is added below)
-
-// 🟠 utility function exported from a component file — should be in utils/
-export function formatRole(role: string) {
-  return role.charAt(0).toUpperCase() + role.slice(1);
 }
