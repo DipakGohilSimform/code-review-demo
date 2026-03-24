@@ -1,6 +1,6 @@
 import { Button } from "@/components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -60,12 +60,12 @@ export const LoginForm = () => {
             <label htmlFor="password" className="text-sm font-medium text-foreground">
               Password
             </label>
-            <a
-              href="#"
+            <Link
+              to="#"
               className="text-xs font-medium text-pagination-text hover:text-pagination-active transition-colors"
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
           <div className="relative">
             <input
@@ -150,12 +150,12 @@ export const LoginForm = () => {
       {/* Footer link */}
       <p className="text-center text-sm text-muted-foreground">
         Don't have an account?{" "}
-        <a
-          href="#"
+        <Link
+          to="#"
           className="font-medium text-pagination-text hover:text-pagination-active transition-colors"
         >
           Request access
-        </a>
+        </Link>
       </p>
     </div>
   );

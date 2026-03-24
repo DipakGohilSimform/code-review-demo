@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { cn } from "@/lib/utils";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -46,9 +46,23 @@ const MOCK_NOTIFICATIONS: Notification[] = [
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 const fetchNotifications = async (signal: AbortSignal): Promise<Notification[]> => {
-  const base = import.meta.env.VITE_API_URL ?? "https://api.example.com";
+  const base = import.meta.env.VITE_API_URL;
+  if (!base) {
+    console.error(
+      "VITE_API_URL is not defined. Please set this environment variable to the API base URL."
+    );
+    throw new Error("VITE_API_URL is not defined");
+  }
   const res = await fetch(`${base}/notifications`, { signal });
-  return res.json() as Promise<Notification[]>;
+  if (!res.ok) {
+    throw new Error(`Failed to fetch notifications: ${res.status} ${res.statusText}`);
+  }
+  try {
+    const data = (await res.json()) as Notification[];
+    return data;
+  } catch {
+    throw new Error("Failed to parse notifications response");
+  }
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────

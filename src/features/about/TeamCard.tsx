@@ -1,5 +1,6 @@
 import { useState, type JSX } from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 export interface SocialLink {
@@ -31,8 +32,11 @@ export function TeamCard({ member }: TeamCardProps): JSX.Element {
   const [likeCount, setLikeCount] = useState(member.likes);
 
   const handleLike = () => {
-    setLiked(prev => !prev);
-    setLikeCount(prev => prev + (liked ? -1 : 1));
+    setLiked(prevLiked => {
+      const nextLiked = !prevLiked;
+      setLikeCount(prevCount => prevCount + (nextLiked ? 1 : -1));
+      return nextLiked;
+    });
   };
 
   return (
@@ -88,9 +92,9 @@ export function TeamCard({ member }: TeamCardProps): JSX.Element {
           {/* Social links */}
           <div className="flex gap-2">
             {member.socials.map(s => (
-              <a
+              <Link
                 key={s.platform}
-                href={s.url}
+                to={s.url}
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label={s.label}
@@ -104,7 +108,7 @@ export function TeamCard({ member }: TeamCardProps): JSX.Element {
                     strokeLinecap="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

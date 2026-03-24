@@ -4,7 +4,7 @@ export default function AuthLayout() {
   return (
     <div className="flex min-h-screen bg-background">
       {/* Left panel — branding / hero */}
-      <div className="relative hidden flex-col justify-between overflow-hidden bg-pagination-bg p-12 lg:flex lg:w-[52%]">
+      <div className="relative hidden flex-col justify-between overflow-hidden bg-pagination-bg p-12 lg:flex lg:w-1/2">
         {/* Decorative circles */}
         <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-pagination-active/20" />
         <div className="pointer-events-none absolute -bottom-24 -right-12 h-96 w-96 rounded-full bg-pagination-active/15" />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { TeamCard, type TeamMember } from "@/features/about";
 import { cn } from "@/lib/utils";
 
@@ -76,6 +76,33 @@ export default function AboutPage(): JSX.Element {
     setStats({ users: 1200, countries: 42, uptime: "99.9%" });
   }, []);
 
+  const handleTabKeyDown = (e: React.KeyboardEvent, currentTab: TabKey) => {
+    const currentIndex = TABS.indexOf(currentTab);
+    let nextTab: TabKey | null = null;
+
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      nextTab = currentIndex > 0 ? TABS[currentIndex - 1] : TABS[TABS.length - 1];
+    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      nextTab = currentIndex < TABS.length - 1 ? TABS[currentIndex + 1] : TABS[0];
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      nextTab = TABS[0];
+    } else if (e.key === "End") {
+      e.preventDefault();
+      nextTab = TABS[TABS.length - 1];
+    }
+
+    if (nextTab) {
+      setActiveTab(nextTab);
+      // Focus the newly active tab button
+      setTimeout(() => {
+        document.getElementById(`tab-${nextTab}`)?.focus();
+      }, 0);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
       {/* Hero */}
@@ -99,14 +126,18 @@ export default function AboutPage(): JSX.Element {
         </div>
       )}
 
-      {/* Tabs */}
+      {/* Tabs — full ARIA tabs pattern */}
       <div className="mb-8 flex gap-2" role="tablist">
         {TABS.map(tab => (
           <button
             key={tab}
+            id={`tab-${tab}`}
             role="tab"
             aria-selected={activeTab === tab}
+            aria-controls={`panel-${tab}`}
+            tabIndex={activeTab === tab ? 0 : -1}
             onClick={() => setActiveTab(tab)}
+            onKeyDown={e => handleTabKeyDown(e, tab)}
             className={cn(
               "rounded-full px-3.5 py-1.5 text-sm font-medium capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               activeTab === tab
@@ -119,9 +150,14 @@ export default function AboutPage(): JSX.Element {
         ))}
       </div>
 
-      {/* Tab content */}
+      {/* Tab panels — full ARIA tabs pattern */}
       {activeTab === "team" && (
-        <div className="flex flex-wrap gap-4">
+        <div
+          id="panel-team"
+          role="tabpanel"
+          aria-labelledby="tab-team"
+          className="flex flex-wrap gap-4"
+        >
           {TEAM.map(member => (
             <TeamCard key={member.id} member={member} />
           ))}
@@ -129,7 +165,12 @@ export default function AboutPage(): JSX.Element {
       )}
 
       {activeTab === "mission" && (
-        <div className="rounded-xl border bg-card p-8">
+        <div
+          id="panel-mission"
+          role="tabpanel"
+          aria-labelledby="tab-mission"
+          className="rounded-xl border bg-card p-8"
+        >
           <h2 className="text-xl font-semibold text-foreground">Our Mission</h2>
           <p className="mt-3 text-sm text-muted-foreground">
             To simplify healthcare provider management so teams can focus on what actually matters —
@@ -139,7 +180,12 @@ export default function AboutPage(): JSX.Element {
       )}
 
       {activeTab === "values" && (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div
+          id="panel-values"
+          role="tabpanel"
+          aria-labelledby="tab-values"
+          className="grid gap-4 sm:grid-cols-2"
+        >
           {VALUES.map(v => (
             <div
               key={v}
