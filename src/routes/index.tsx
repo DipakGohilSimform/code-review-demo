@@ -8,6 +8,7 @@ const PrivateLayout = lazy(() => import("@/pages/private/privateLayout"));
 
 // Lazy load public pages
 const Login = lazy(() => import("@/pages/public/login"));
+const About = lazy(() => import("@/pages/public/about"));
 
 // Lazy load private pages
 const Dashboard = lazy(() => import("@/pages/private/dashboard"));
@@ -38,6 +39,12 @@ export const routes: RouteObject[] = [
     ],
   },
 
+  // Standalone public pages
+  {
+    path: "/about",
+    element: lazyLoad(About),
+  },
+
   // Private routes (protected)
   {
     path: "/",
@@ -45,6 +52,10 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
+        element: lazyLoad(Dashboard),
+      },
+      {
+        path: "dashboard",
         element: lazyLoad(Dashboard),
       },
     ],
