@@ -9,3 +9,12 @@ export function cn(...inputs: ClassValue[]): string {
 export function formatRole(role: string): string {
   return role.charAt(0).toUpperCase() + role.slice(1);
 }
+
+/** Returns uppercase initials from a full name. e.g. "Sarah Mitchell" → "SM" */
+export function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map(w => w[0])
+    .join("")
+    .toUpperCase();
+}
