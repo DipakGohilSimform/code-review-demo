@@ -16,7 +16,7 @@ export default function AuthLayout() {
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              className="h-4.5 w-4.5 text-white"
+              className="size-4 text-white"
               aria-hidden="true"
             >
               <path
