@@ -105,4 +105,13 @@ function CardIcon({ icon: Icon, className, containerClassName }: CardIconProps) 
   );
 }
 
-export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, CardIcon };
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+  CardIcon,
+};

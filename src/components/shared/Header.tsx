@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTheme, type Theme } from "@/hooks/useTheme";
 
 export default function Header() {
@@ -14,9 +15,9 @@ export default function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <h1 className="text-xl font-bold">My App</h1>
         <nav className="flex items-center gap-4">
-          <a href="/" className="text-sm hover:text-primary">
+          <Link to="/" className="text-sm hover:text-primary">
             Dashboard
-          </a>
+          </Link>
           <button className="text-sm hover:text-primary">Logout</button>
           <button
             aria-label="Toggle theme"

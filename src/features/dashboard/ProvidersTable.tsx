@@ -99,17 +99,11 @@ const SAMPLE_PROVIDERS: Provider[] = [
 
 // ─── Avatar cell ─────────────────────────────────────────────────────────────
 
-function ProviderCell({
-  name,
-  avatar,
-}: {
-  name: string;
-  avatar?: string;
-}) {
+function ProviderCell({ name, avatar }: { name: string; avatar?: string }) {
   const initials = name
     .split(" ")
     .filter(Boolean)
-    .map((w) => w[0])
+    .map(w => w[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
@@ -117,11 +111,7 @@ function ProviderCell({
   return (
     <span className="inline-flex items-center gap-2 min-w-0">
       {avatar ? (
-        <img
-          src={avatar}
-          alt={name}
-          className="h-8 w-8 rounded-full object-cover shrink-0"
-        />
+        <img src={avatar} alt={name} className="h-8 w-8 rounded-full object-cover shrink-0" />
       ) : (
         <span
           aria-hidden="true"
@@ -137,13 +127,7 @@ function ProviderCell({
 
 // ─── Action cell ─────────────────────────────────────────────────────────────
 
-function ActionCell({
-  onMessage,
-  onDelete,
-}: {
-  onMessage: () => void;
-  onDelete: () => void;
-}) {
+function ActionCell({ onMessage, onDelete }: { onMessage: () => void; onDelete: () => void }) {
   return (
     <span className="inline-flex items-center gap-2">
       {/* Message icon */}
@@ -218,34 +202,32 @@ function buildColumns(
       key: "name",
       header: "Provider Name",
       sortable: true,
-      widthClass: "min-w-[200px]",
-      render: (_value, row) => (
-        <ProviderCell name={row.name} avatar={row.avatar} />
-      ),
+      widthClass: "min-w-50",
+      render: (_value, row) => <ProviderCell name={row.name} avatar={row.avatar} />,
     },
     {
       key: "type",
       header: "Type",
       sortable: true,
-      widthClass: "min-w-[160px]",
+      widthClass: "min-w-40",
     },
     {
       key: "specialization",
       header: "Specialization",
       sortable: true,
-      widthClass: "min-w-[140px]",
+      widthClass: "min-w-35",
     },
     {
       key: "location",
       header: "Location",
       sortable: true,
-      widthClass: "min-w-[120px]",
+      widthClass: "min-w-30",
     },
     {
       key: "acceptsLop",
       header: "Accepts LOP",
       align: "center",
-      widthClass: "min-w-[110px]",
+      widthClass: "min-w-28",
       render: (_value, row) =>
         row.acceptsLop ? (
           <TableBadge intent="success">Yes</TableBadge>
@@ -257,18 +239,15 @@ function buildColumns(
       key: "lastContacted",
       header: "Last Contacted Date",
       sortable: true,
-      widthClass: "min-w-[160px]",
+      widthClass: "min-w-40",
     },
     {
       key: "id",
       header: "Action",
       align: "center",
-      widthClass: "w-[88px]",
+      widthClass: "w-22",
       render: (_value, row) => (
-        <ActionCell
-          onMessage={() => onMessage(row.id)}
-          onDelete={() => onDelete(row.id)}
-        />
+        <ActionCell onMessage={() => onMessage(row.id)} onDelete={() => onDelete(row.id)} />
       ),
     },
   ];
@@ -304,12 +283,10 @@ function Pagination({
     >
       {/* Left — rows per page */}
       <div className="flex items-center gap-3">
-        <span className="text-sm text-muted-foreground whitespace-nowrap">
-          No. of Rows
-        </span>
+        <span className="text-sm text-muted-foreground whitespace-nowrap">No. of Rows</span>
         <select
           value={rowsPerPage}
-          onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
+          onChange={e => onRowsPerPageChange(Number(e.target.value))}
           className={cn(
             "h-9 w-20 rounded-md border border-border bg-background",
             "px-2.5 text-sm text-foreground",
@@ -317,7 +294,7 @@ function Pagination({
           )}
           aria-label="Rows per page"
         >
-          {ROWS_PER_PAGE_OPTIONS.map((n) => (
+          {ROWS_PER_PAGE_OPTIONS.map(n => (
             <option key={n} value={n}>
               {n}
             </option>
@@ -428,19 +405,12 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-function buildPageNumbers(
-  current: number,
-  total: number
-): (number | "ellipsis")[] {
+function buildPageNumbers(current: number, total: number): (number | "ellipsis")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
   const pages: (number | "ellipsis")[] = [1];
   if (current > 3) pages.push("ellipsis");
-  for (
-    let i = Math.max(2, current - 1);
-    i <= Math.min(total - 1, current + 1);
-    i++
-  ) {
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
     pages.push(i);
   }
   if (current < total - 2) pages.push("ellipsis");
@@ -456,22 +426,18 @@ function buildPageNumbers(
  */
 export function ProvidersTable() {
   const [data, setData] = useState<Provider[]>(SAMPLE_PROVIDERS);
-  const [selectedKeys, setSelectedKeys] = useState<Set<string | number>>(
-    new Set()
-  );
+  const [selectedKeys, setSelectedKeys] = useState<Set<string | number>>(new Set());
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const totalPages = Math.max(1, Math.ceil(data.length / rowsPerPage));
   const pageData = data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
-  const handleMessage = (id: string) => {
-    console.log("Message provider", id);
-  };
+  const handleMessage = () => {};
 
   const handleDelete = (id: string) => {
-    setData((prev) => prev.filter((p) => p.id !== id));
-    setSelectedKeys((prev) => {
+    setData(prev => prev.filter(p => p.id !== id));
+    setSelectedKeys(prev => {
       const next = new Set(prev);
       next.delete(id);
       return next;
@@ -515,7 +481,7 @@ export function ProvidersTable() {
         totalPages={totalPages}
         rowsPerPage={rowsPerPage}
         onPageChange={setPage}
-        onRowsPerPageChange={(n) => {
+        onRowsPerPageChange={n => {
           setRowsPerPage(n);
           setPage(1);
         }}
