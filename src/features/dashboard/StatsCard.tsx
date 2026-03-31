@@ -1,13 +1,16 @@
 import type { ReactNode } from "react";
 
-type StatsCardProps = {
+import { cn } from "@/lib/utils";
+import type { TrendDirection } from "@/types/dashboardTypes";
+
+interface StatsCardProps {
   title: string;
   value: ReactNode;
   delta?: string;
-  deltaColor?: "green" | "red" | "muted";
+  deltaColor?: TrendDirection | "green" | "red" | "muted";
   smallText?: ReactNode;
   className?: string;
-};
+}
 
 export function StatsCard({
   title,
@@ -15,24 +18,27 @@ export function StatsCard({
   delta,
   deltaColor = "muted",
   smallText,
-  className = "p-6",
-}: StatsCardProps) {
-  const colorClass =
-    deltaColor === "green"
-      ? "text-green-600"
-      : deltaColor === "red"
-        ? "text-red-600"
-        : "text-muted-foreground";
+  className,
+}: StatsCardProps): React.JSX.Element {
+  const trendClass = cn(
+    "text-xs",
+    (deltaColor === "green" || deltaColor === "up") && "text-green-600 dark:text-green-400",
+    (deltaColor === "red" || deltaColor === "down") && "text-destructive",
+    (deltaColor === "muted" || deltaColor === "neutral") && "text-muted-foreground"
+  );
 
   return (
     <div
-      className={`bg-card text-card-foreground flex flex-col gap-2 rounded-xl border shadow-sm ${className}`}
+      className={cn(
+        "bg-card text-card-foreground flex flex-col gap-2 rounded-xl border border-border p-6 shadow-sm",
+        className
+      )}
     >
       <div className="space-y-2 p-2">
         <p className="text-sm font-medium text-muted-foreground">{title}</p>
-        <p className="text-3xl font-bold">{value}</p>
+        <p className="text-3xl font-bold text-foreground">{value}</p>
         {delta ? (
-          <p className={`text-xs ${colorClass}`}>{delta}</p>
+          <p className={trendClass}>{delta}</p>
         ) : smallText ? (
           <p className="text-xs text-muted-foreground">{smallText}</p>
         ) : null}

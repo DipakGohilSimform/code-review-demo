@@ -1,4 +1,5 @@
 export * from "./DashboardOverview";
+export * from "./DashboardWidget";
 export * from "./RecentActivity";
 export * from "./StatsCard";
 export * from "./ProvidersTable";

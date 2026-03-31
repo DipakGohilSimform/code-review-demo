@@ -111,10 +111,7 @@ interface SortIconProps {
 
 function SortIcon({ direction }: SortIconProps) {
   return (
-    <span
-      className="inline-flex flex-col shrink-0 gap-px ml-1"
-      aria-hidden="true"
-    >
+    <span className="inline-flex flex-col shrink-0 gap-px ml-1" aria-hidden="true">
       <svg width="8" height="5" viewBox="0 0 8 5" fill="none">
         <path
           d="M4 0L7.46410 4.5H0.535898L4 0Z"
@@ -146,14 +143,9 @@ interface TableBadgeProps {
  * Inline badge/tag used inside table cells.
  * Matches the YES/NO pill shown in the Figma design.
  */
-export function TableBadge({
-  intent = "success",
-  children,
-  className,
-}: TableBadgeProps) {
+export function TableBadge({ intent = "success", children, className }: TableBadgeProps) {
   const intentStyles: Record<string, string> = {
-    success:
-      "bg-tag-success-bg border-tag-success-border text-tag-success-text",
+    success: "bg-tag-success-bg border-tag-success-border text-tag-success-text",
     warning: "bg-yellow-50 border-yellow-200 text-yellow-700",
     error: "bg-red-50 border-red-200 text-red-700",
     neutral: "bg-muted border-border text-muted-foreground",
@@ -182,12 +174,7 @@ interface TableCheckboxProps {
   label: string;
 }
 
-function TableCheckbox({
-  checked,
-  indeterminate = false,
-  onChange,
-  label,
-}: TableCheckboxProps) {
+function TableCheckbox({ checked, indeterminate = false, onChange, label }: TableCheckboxProps) {
   const ref = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -206,7 +193,7 @@ function TableCheckbox({
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
       )}
       checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
+      onChange={e => onChange(e.target.checked)}
       aria-label={label}
     />
   );
@@ -223,10 +210,7 @@ interface EmptyStateProps {
 function EmptyState({ colSpan, message, icon }: EmptyStateProps) {
   return (
     <tr>
-      <td
-        colSpan={colSpan}
-        className="px-4 py-12 text-center text-muted-foreground text-sm"
-      >
+      <td colSpan={colSpan} className="px-4 py-12 text-center text-muted-foreground text-sm">
         {icon && <div className="mb-3 flex justify-center">{icon}</div>}
         <p>{message}</p>
       </td>
@@ -285,10 +269,7 @@ export function Table<TRow extends object>({
 
   const handleSortClick = useCallback(
     (key: string) => {
-      const newDirection =
-        activeSort.key === key
-          ? nextSortDirection(activeSort.direction)
-          : "asc";
+      const newDirection = activeSort.key === key ? nextSortDirection(activeSort.direction) : "asc";
       const next: SortState = { key, direction: newDirection };
       if (onSortChange) {
         onSortChange(next);
@@ -300,19 +281,12 @@ export function Table<TRow extends object>({
   );
 
   // ── uncontrolled selection ──
-  const [internalKeys, setInternalKeys] = useState<Set<string | number>>(
-    new Set()
-  );
+  const [internalKeys, setInternalKeys] = useState<Set<string | number>>(new Set());
   const activeKeys = controlledKeys ?? internalKeys;
 
-  const allRowKeys = useMemo(
-    () => data.map((row) => getRowKey(row, rowKey)),
-    [data, rowKey]
-  );
-  const allSelected =
-    allRowKeys.length > 0 && allRowKeys.every((k) => activeKeys.has(k));
-  const someSelected =
-    !allSelected && allRowKeys.some((k) => activeKeys.has(k));
+  const allRowKeys = useMemo(() => data.map(row => getRowKey(row, rowKey)), [data, rowKey]);
+  const allSelected = allRowKeys.length > 0 && allRowKeys.every(k => activeKeys.has(k));
+  const someSelected = !allSelected && allRowKeys.some(k => activeKeys.has(k));
 
   const handleSelectAll = useCallback(
     (checked: boolean) => {
@@ -387,16 +361,10 @@ export function Table<TRow extends object>({
         className="w-full min-w-full border-collapse text-sm"
         aria-label={caption}
       >
-        {caption && (
-          <caption className="sr-only">{caption}</caption>
-        )}
+        {caption && <caption className="sr-only">{caption}</caption>}
 
         {/* ── thead ── */}
-        <thead
-          className={cn(
-            stickyHeader && "sticky top-0 z-10"
-          )}
-        >
+        <thead className={cn(stickyHeader && "sticky top-0 z-10")}>
           <tr className="bg-table-header">
             {/* selection header */}
             {selectable && (
@@ -420,7 +388,7 @@ export function Table<TRow extends object>({
               </th>
             )}
 
-            {columns.map((col) => {
+            {columns.map(col => {
               const isSortActive = activeSort.key === col.key;
 
               return (
@@ -433,10 +401,8 @@ export function Table<TRow extends object>({
                     "align-middle font-bold text-table-text leading-5 whitespace-nowrap",
                     col.widthClass,
                     alignClass[col.align ?? "left"],
-                    col.sortable &&
-                      "cursor-pointer select-none hover:bg-black/5 transition-colors",
-                    isBordered &&
-                      "border-r border-table-border last:border-r-0"
+                    col.sortable && "cursor-pointer select-none hover:bg-black/5 transition-colors",
+                    isBordered && "border-r border-table-border last:border-r-0"
                   )}
                   aria-sort={
                     col.sortable && isSortActive
@@ -449,12 +415,10 @@ export function Table<TRow extends object>({
                         ? "none"
                         : undefined
                   }
-                  onClick={
-                    col.sortable ? () => handleSortClick(col.key) : undefined
-                  }
+                  onClick={col.sortable ? () => handleSortClick(col.key) : undefined}
                   onKeyDown={
                     col.sortable
-                      ? (e) => {
+                      ? e => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
                             handleSortClick(col.key);
@@ -467,9 +431,7 @@ export function Table<TRow extends object>({
                   <span className="inline-flex items-center gap-1">
                     {col.header}
                     {col.sortable && (
-                      <SortIcon
-                        direction={isSortActive ? activeSort.direction : null}
-                      />
+                      <SortIcon direction={isSortActive ? activeSort.direction : null} />
                     )}
                   </span>
                 </th>
@@ -481,11 +443,7 @@ export function Table<TRow extends object>({
         {/* ── tbody ── */}
         <tbody>
           {sortedData.length === 0 ? (
-            <EmptyState
-              colSpan={totalCols}
-              message={emptyMessage}
-              icon={emptyIcon}
-            />
+            <EmptyState colSpan={totalCols} message={emptyMessage} icon={emptyIcon} />
           ) : (
             sortedData.map((row, rowIndex) => {
               const key = getRowKey(row, rowKey);
@@ -499,8 +457,7 @@ export function Table<TRow extends object>({
                   className={cn(
                     "border-t border-table-border transition-colors",
                     isZebra ? "bg-table-stripe" : "bg-background",
-                    hoverable &&
-                      "hover:bg-table-hover",
+                    hoverable && "hover:bg-table-hover",
                     isSelected && "bg-primary/5"
                   )}
                   aria-selected={selectable ? isSelected : undefined}
@@ -518,13 +475,13 @@ export function Table<TRow extends object>({
                     >
                       <TableCheckbox
                         checked={isSelected}
-                        onChange={(checked) => handleSelectRow(key, checked)}
+                        onChange={checked => handleSelectRow(key, checked)}
                         label={`Select row ${rowIndex + 1}`}
                       />
                     </td>
                   )}
 
-                  {columns.map((col) => {
+                  {columns.map(col => {
                     const rawValue = (row as Record<string, unknown>)[col.key];
                     const cell = col.render
                       ? col.render(rawValue, row, rowIndex)
@@ -539,8 +496,7 @@ export function Table<TRow extends object>({
                           "align-middle text-table-text leading-5",
                           alignClass[col.align ?? "left"],
                           col.widthClass,
-                          isBordered &&
-                            "border-r border-table-border last:border-r-0"
+                          isBordered && "border-r border-table-border last:border-r-0"
                         )}
                       >
                         {cell}
@@ -563,10 +519,7 @@ export function Table<TRow extends object>({
  * Wrapper that applies the outer border + overflow container to a raw
  * `<table>` element. Use when you need full layout control.
  */
-export function TableRoot({
-  className,
-  children,
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function TableRoot({ className, children }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
@@ -574,9 +527,7 @@ export function TableRoot({
         className
       )}
     >
-      <table className="w-full min-w-full border-collapse text-sm">
-        {children}
-      </table>
+      <table className="w-full min-w-full border-collapse text-sm">{children}</table>
     </div>
   );
 }
@@ -586,19 +537,10 @@ export function TableHead({
   children,
   sticky = false,
 }: React.HTMLAttributes<HTMLTableSectionElement> & { sticky?: boolean }) {
-  return (
-    <thead
-      className={cn(sticky && "sticky top-0 z-10", className)}
-    >
-      {children}
-    </thead>
-  );
+  return <thead className={cn(sticky && "sticky top-0 z-10", className)}>{children}</thead>;
 }
 
-export function TableBody({
-  className,
-  children,
-}: React.HTMLAttributes<HTMLTableSectionElement>) {
+export function TableBody({ className, children }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return <tbody className={className}>{children}</tbody>;
 }
 
@@ -652,8 +594,7 @@ export function TableHeader({
         "px-3 py-3.5 bg-table-header",
         "font-bold text-table-text leading-5 whitespace-nowrap",
         alignClass[align],
-        sortable &&
-          "cursor-pointer select-none hover:bg-black/5 transition-colors",
+        sortable && "cursor-pointer select-none hover:bg-black/5 transition-colors",
         className
       )}
       aria-sort={
@@ -669,7 +610,7 @@ export function TableHeader({
       onClick={sortable ? onSort : undefined}
       onKeyDown={
         sortable
-          ? (e) => {
+          ? e => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 onSort?.();
@@ -715,10 +656,7 @@ export function TableCaption({
   ...props
 }: React.HTMLAttributes<HTMLTableCaptionElement>) {
   return (
-    <caption
-      className={cn("mb-2 text-sm text-muted-foreground text-left", className)}
-      {...props}
-    >
+    <caption className={cn("mb-2 text-sm text-muted-foreground text-left", className)} {...props}>
       {children}
     </caption>
   );

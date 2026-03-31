@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "pre-tool-check": {
+      "description": "Validates code quality before Copilot applies changes",
+      "script": ".github/scripts/hooks/pre-tool-check.sh",
+      "triggers": ["edit", "create"],
+      "failAction": "block"
+    },
+    "post-tool-check": {
+      "description": "Runs lint and test after Copilot applies changes",
+      "script": ".github/scripts/hooks/post-tool-check.sh",
+      "triggers": ["edit", "create"],
+      "failAction": "warn"
+    }
+  }
+}

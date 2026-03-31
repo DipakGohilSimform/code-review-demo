@@ -22,28 +22,29 @@ All colors use OK LCH (Oklch) color space for perceptually uniform color scales.
 
 #### Light Mode (Default)
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `background` | `oklch(1 0 0)` | Page background |
-| `foreground` | `oklch(0.145 0 0)` | Primary text |
-| `card` | `oklch(1 0 0)` | Card backgrounds |
-| `card-foreground` | `oklch(0.145 0 0)` | Card text |
-| `primary` | `oklch(0.205 0 0)` | Main action color (dark) |
-| `primary-foreground` | `oklch(0.985 0 0)` | Text on primary |
-| `secondary` | `oklch(0.97 0 0)` | Secondary actions |
-| `secondary-foreground` | `oklch(0.205 0 0)` | Text on secondary |
-| `muted` | `oklch(0.97 0 0)` | Disabled/inactive elements |
-| `muted-foreground` | `oklch(0.556 0 0)` | Muted text |
-| `accent` | `oklch(0.97 0 0)` | Accent color |
-| `accent-foreground` | `oklch(0.205 0 0)` | Text on accent |
-| `destructive` | `oklch(0.577 0.245 27.325)` | Danger/error color (red) |
-| `border` | `oklch(0.922 0 0)` | Border color |
-| `input` | `oklch(0.922 0 0)` | Input field backgrounds |
-| `ring` | `oklch(0.708 0 0)` | Focus ring color |
+| Token                  | Value                       | Usage                      |
+| ---------------------- | --------------------------- | -------------------------- |
+| `background`           | `oklch(1 0 0)`              | Page background            |
+| `foreground`           | `oklch(0.145 0 0)`          | Primary text               |
+| `card`                 | `oklch(1 0 0)`              | Card backgrounds           |
+| `card-foreground`      | `oklch(0.145 0 0)`          | Card text                  |
+| `primary`              | `oklch(0.205 0 0)`          | Main action color (dark)   |
+| `primary-foreground`   | `oklch(0.985 0 0)`          | Text on primary            |
+| `secondary`            | `oklch(0.97 0 0)`           | Secondary actions          |
+| `secondary-foreground` | `oklch(0.205 0 0)`          | Text on secondary          |
+| `muted`                | `oklch(0.97 0 0)`           | Disabled/inactive elements |
+| `muted-foreground`     | `oklch(0.556 0 0)`          | Muted text                 |
+| `accent`               | `oklch(0.97 0 0)`           | Accent color               |
+| `accent-foreground`    | `oklch(0.205 0 0)`          | Text on accent             |
+| `destructive`          | `oklch(0.577 0.245 27.325)` | Danger/error color (red)   |
+| `border`               | `oklch(0.922 0 0)`          | Border color               |
+| `input`                | `oklch(0.922 0 0)`          | Input field backgrounds    |
+| `ring`                 | `oklch(0.708 0 0)`          | Focus ring color           |
 
 #### Dark Mode
 
 All colors automatically inverse for dark mode via `.dark` class on `<html>`:
+
 - Backgrounds become darker (`oklch(0.145 0 0)`)
 - Text becomes lighter (`oklch(0.985 0 0)`)
 - Borders adapt with opacity (`oklch(1 0 0 / 10%)`)
@@ -63,12 +64,14 @@ All colors automatically inverse for dark mode via `.dark` class on `<html>`:
 **Use semantic tokens, never hard-coded hex values:**
 
 ✅ Correct:
+
 ```tsx
 <button className="bg-primary text-primary-foreground" />
 <div className="bg-background border-border" />
 ```
 
 ❌ Wrong:
+
 ```tsx
 <button className="bg-[#205]" /> {/* Avoid arbitrary values */}
 <div className="bg-white" /> {/* Avoid hard values */}
@@ -77,6 +80,7 @@ All colors automatically inverse for dark mode via `.dark` class on `<html>`:
 ### 2.3 Component-Specific Tokens
 
 #### Table Tokens
+
 - `table-header`: `#d1d2d5` (light), `oklch(0.25 0 0)` (dark)
 - `table-text`: `#191e2e` (light), `oklch(0.985 0 0)` (dark)
 - `table-stripe`: `#f6f8fa` (light), `oklch(0.205 0 0)` (dark)
@@ -84,17 +88,21 @@ All colors automatically inverse for dark mode via `.dark` class on `<html>`:
 - `table-hover`: `#eef2f6` (light), `oklch(0.3 0 0)` (dark)
 
 #### Tag/Badge Tokens
+
 - `tag-success-bg`: `#dbf6cb` (light), `oklch(0.25 0.08 145)` (dark)
 - `tag-success-border`: `#c7e9bd` (light), `oklch(0.3 0.08 145)` (dark)
 - `tag-success-text`: `#17793f` (light), `oklch(0.75 0.15 145)` (dark)
 
 #### Pagination Tokens
+
 - `pagination-bg`: `#e2f0f5` (light), `oklch(0.269 0 0)` (dark)
 - `pagination-active`: `#33c9fd` (light), `oklch(0.65 0.15 200)` (dark)
 - `pagination-text`: `#047296` (light), `oklch(0.65 0.1 200)` (dark)
 
 #### Chart Colors
+
 5 chart colors for data visualization:
+
 - `chart-1`: Orange-ish `oklch(0.646 0.222 41.116)` / `oklch(0.488 0.243 264.376)` (dark)
 - `chart-2`: Blue `oklch(0.6 0.118 184.704)` / `oklch(0.696 0.17 162.48)` (dark)
 - `chart-3`: Purple `oklch(0.398 0.07 227.392)` / `oklch(0.769 0.188 70.08)` (dark)
@@ -106,14 +114,15 @@ All colors automatically inverse for dark mode via `.dark` class on `<html>`:
 Via Tailwind CSS, variables defined in `index.css`:
 
 ```css
---radius: 0.625rem;           /* 10px */
---radius-sm: calc(--radius - 4px);   /* 6px */
---radius-md: calc(--radius - 2px);   /* 8px */
---radius-lg: var(--radius);          /* 10px */
---radius-xl: calc(--radius + 4px);   /* 14px */
+--radius: 0.625rem; /* 10px */
+--radius-sm: calc(--radius - 4px); /* 6px */
+--radius-md: calc(--radius - 2px); /* 8px */
+--radius-lg: var(--radius); /* 10px */
+--radius-xl: calc(--radius + 4px); /* 14px */
 ```
 
 **Tailwind spacing scale (default):**
+
 - `p-2`: 0.5rem (8px) — small padding
 - `p-4`: 1rem (16px) — default padding
 - `p-6`: 1.5rem (24px) — large padding
@@ -124,6 +133,7 @@ Via Tailwind CSS, variables defined in `index.css`:
 **Font Stack:** Tailwind default (system fonts)
 
 **Size Classes:**
+
 - `text-xs`: 0.75rem (12px) — labels, badges
 - `text-sm`: 0.875rem (14px) — body text, descriptions
 - `text-base`: 1rem (16px) — default body
@@ -132,6 +142,7 @@ Via Tailwind CSS, variables defined in `index.css`:
 - `text-3xl`: 1.875rem (30px) — page headers
 
 **Font Weight:**
+
 - `font-medium`: 500 — normal weight
 - `font-semibold`: 600 — headers
 - `font-bold`: 700 — emphasized text
@@ -154,10 +165,12 @@ import { DashboardOverview } from "@/features/dashboard";
 #### UI Components (`@/components/ui/*`)
 
 **shadcn/ui Generated:**
+
 - `Button` — Action button with variants (default, destructive, outline, secondary, ghost, link)
 - `Card`, `CardHeader`, `CardTitle`, `CardDescription` — Container component
 
 **Custom UI:**
+
 - `Table` — Data table component
 
 #### Shared Components (`@/components/shared/*`)
@@ -180,9 +193,11 @@ export { ProfileForm } from "./ProfileForm";
 #### Feature Components (`@/features/{feature}/*`)
 
 **Auth Feature:**
+
 - `LoginForm` — Login form component
 
 **Dashboard Feature:**
+
 - `DashboardOverview` — Dashboard main layout
 - `StatsCard` — Statistics card component
   - Props: `title`, `value`, `delta`, `deltaColor` ("green"|"red"|"muted"), `smallText`, `className`
@@ -196,6 +211,7 @@ export { ProfileForm } from "./ProfileForm";
 ### 4.1 Button Component
 
 **Variants:**
+
 ```tsx
 <Button variant="default">Primary Action</Button>
 <Button variant="secondary">Secondary</Button>
@@ -206,6 +222,7 @@ export { ProfileForm } from "./ProfileForm";
 ```
 
 **Sizes:**
+
 ```tsx
 <Button size="sm">Small</Button>
 <Button size="default">Default</Button>
@@ -216,6 +233,7 @@ export { ProfileForm } from "./ProfileForm";
 ### 4.2 Card Component
 
 **Basic Card:**
+
 ```tsx
 <Card>
   <CardHeader>
@@ -227,6 +245,7 @@ export { ProfileForm } from "./ProfileForm";
 ```
 
 **StatsCard (Dashboard):**
+
 ```tsx
 <StatsCard
   title="Total Users"
@@ -238,6 +257,7 @@ export { ProfileForm } from "./ProfileForm";
 ```
 
 **Color Indicators for Delta:**
+
 - `green` → `text-green-600` (positive metrics)
 - `red` → `text-red-600` (negative metrics)
 - `muted` → `text-muted-foreground` (neutral)
@@ -256,14 +276,10 @@ export { ProfileForm } from "./ProfileForm";
   </div>
 
   {/* Stats Grid: 8 cards, 4 columns (lg), 2 columns (md) */}
-  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-    {/* StatsCard items */}
-  </div>
+  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">{/* StatsCard items */}</div>
 
   {/* Recent Activity: 2 columns (md) */}
-  <div className="grid gap-4 md:grid-cols-2">
-    {/* RecentActivity components */}
-  </div>
+  <div className="grid gap-4 md:grid-cols-2">{/* RecentActivity components */}</div>
 </div>
 ```
 
@@ -290,14 +306,15 @@ export { ProfileForm } from "./ProfileForm";
 
 Tailwind CSS default breakpoints:
 
-| Preset | Min Width | Class Prefix |
-|--------|-----------|--------------|
-| Mobile | None | (none) |
-| Tablet | 768px | `md:` |
-| Desktop | 1024px | `lg:` |
-| Large Desktop | 1280px | `xl:` |
+| Preset        | Min Width | Class Prefix |
+| ------------- | --------- | ------------ |
+| Mobile        | None      | (none)       |
+| Tablet        | 768px     | `md:`        |
+| Desktop       | 1024px    | `lg:`        |
+| Large Desktop | 1280px    | `xl:`        |
 
 **Dashboard Grid Example:**
+
 ```tsx
 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
   {/* Mobile: 1 column (auto) */}
@@ -329,7 +346,7 @@ import { useTheme } from "@/hooks/useTheme";
 
 function MyComponent() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
     <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
       Toggle Theme
@@ -345,9 +362,9 @@ function MyComponent() {
 ```html
 <!-- Light mode (default) -->
 <html>
-
-<!-- Dark mode -->
-<html class="dark">
+  <!-- Dark mode -->
+  <html class="dark"></html>
+</html>
 ```
 
 All Tailwind `dark:` variants automatically activate.
@@ -384,7 +401,7 @@ src/
 │   │   ├── RecentActivity.tsx
 │   │   ├── ProvidersTable.tsx
 │   │   └── index.ts       # Re-exports
-│   
+│
 ├── hooks/                 # Shared hooks
 │   ├── useTheme.ts       # Theme toggle hook
 │   └── index.ts          # Re-exports
@@ -445,26 +462,28 @@ import Button from "../components/ui/button.tsx";
 
 ### 8.1 File Naming Conventions
 
-| Type | Convention | Example. |
-|------|-----------|----------|
-| Folders | kebab-case | `dashboard-admin/` |
-| Components | PascalCase | `DashboardOverview.tsx` |
-| Hooks | camelCase + use | `useTheme.ts` |
-| Services | camelCase + Service | `authService.ts` |
-| Utils | camelCase | `dateFormatter.ts` |
-| Types | camelCase + Types | `buttonTypes.ts` |
-| Tests | ComponentName.test.tsx | `Button.test.tsx` |
+| Type       | Convention             | Example.                |
+| ---------- | ---------------------- | ----------------------- |
+| Folders    | kebab-case             | `dashboard-admin/`      |
+| Components | PascalCase             | `DashboardOverview.tsx` |
+| Hooks      | camelCase + use        | `useTheme.ts`           |
+| Services   | camelCase + Service    | `authService.ts`        |
+| Utils      | camelCase              | `dateFormatter.ts`      |
+| Types      | camelCase + Types      | `buttonTypes.ts`        |
+| Tests      | ComponentName.test.tsx | `Button.test.tsx`       |
 
 ### 8.2 Styling Rules
 
 ### NO CSS Modules
 
 **DO:** Use Tailwind CSS utility classes
+
 ```tsx
 ✅ <button className="bg-primary text-primary-foreground rounded-md" />
 ```
 
 **DON'T:** Create CSS Module files
+
 ```tsx
 ❌ import styles from './button.module.css';
    <button className={styles.btn} />
@@ -473,11 +492,13 @@ import Button from "../components/ui/button.tsx";
 ### NO Arbitrary Values
 
 **DO:** Use semantic design tokens
+
 ```tsx
 ✅ <div className="bg-card border-border shadow-sm rounded-xl" />
 ```
 
-**DON'T:** Use hard-coded values  
+**DON'T:** Use hard-coded values
+
 ```tsx
 ❌ <div className="bg-[#ffffff] border-[#e5e5e5] rounded-[10px]" />
 ```
@@ -537,12 +558,14 @@ When modifying colors or tokens:
 **Location:** `src/features/dashboard/`
 
 **Components:**
+
 - `DashboardOverview` — Main layout wrapper
 - `StatsCard` — KPI display with delta indicators (green/red/muted)
 - `RecentActivity` — Activity feed with timeline dots
 - `ProvidersTable` — Data table for provider information
 
 **Layout Pattern:**
+
 ```tsx
 <DashboardOverview>
   {/* Responsive grid of StatsCards (4 col on lg, 2 col on md) */}
@@ -555,6 +578,7 @@ When modifying colors or tokens:
 **Location:** `src/features/auth/`
 
 **Components:**
+
 - `LoginForm` — Login form (email + password)
 
 **Route:** `/auth/login` (public page using `authLayout.tsx`)
@@ -566,6 +590,7 @@ When modifying colors or tokens:
 ### 11.1 Semantic HTML
 
 All components use semantic HTML:
+
 - `<button>` for buttons (not `<div onClick>`)
 - `<header>`, `<nav>` for navigation
 - `<main>` for page content
@@ -574,11 +599,13 @@ All components use semantic HTML:
 ### 11.2 Focus & Keyboard
 
 **Tailwind Ring on Focus:**
+
 ```tsx
-className="focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+className = "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
 ```
 
 All interactive elements support:
+
 - Keyboard focus (`Tab` navigation)
 - Visual focus indicator (ring color)
 - Aria attributes for screen readers
@@ -586,6 +613,7 @@ All interactive elements support:
 ### 11.3 Color Contrast
 
 All semantic colors meet WCAG AA contrast ratios:
+
 - `foreground` on `background` ✓
 - `primary-foreground` on `primary` ✓
 - `muted-foreground` on `card` ✓
@@ -604,8 +632,8 @@ All semantic colors meet WCAG AA contrast ratios:
 
 ## 13. Changelog
 
-| Date | Change |
-|------|--------|
+| Date       | Change                                                                    |
+| ---------- | ------------------------------------------------------------------------- |
 | 2026-03-19 | Initial design system created with color tokens, components, and patterns |
 
 ---
